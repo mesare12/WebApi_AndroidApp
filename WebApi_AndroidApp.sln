@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32228.430
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi_AndroidApp", "WebApi_AndroidApp\WebApi_AndroidApp.csproj", "{85E43E07-4FED-4BF7-B3EB-967D51E908F3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{85E43E07-4FED-4BF7-B3EB-967D51E908F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85E43E07-4FED-4BF7-B3EB-967D51E908F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85E43E07-4FED-4BF7-B3EB-967D51E908F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85E43E07-4FED-4BF7-B3EB-967D51E908F3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {055A7171-0DC7-4800-8C2D-1EB34B8F3613}
+	EndGlobalSection
+EndGlobal
