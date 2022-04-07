@@ -12,47 +12,47 @@ namespace WebApi_AndroidApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MessageitemsController : ControllerBase
+    public class GameitemsController : ControllerBase
     {
         private readonly RockPaperScissor _context;
 
-        public MessageitemsController(RockPaperScissor context)
+        public GameitemsController(RockPaperScissor context)
         {
             _context = context;
         }
 
-        // GET: api/Messageitems
+        // GET: api/Gameitems
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Messageitem>>> GetMessage()
+        public async Task<ActionResult<IEnumerable<Gameitem>>> GetGame()
         {
-            return await _context.Message.ToListAsync();
+            return await _context.Game.ToListAsync();
         }
 
-        // GET: api/Messageitems/5
+        // GET: api/Gameitems/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Messageitem>> GetMessageitem(long id)
+        public async Task<ActionResult<Gameitem>> GetGameitem(long id)
         {
-            var messageitem = await _context.Message.FindAsync(id);
+            var gameitem = await _context.Game.FindAsync(id);
 
-            if (messageitem == null)
+            if (gameitem == null)
             {
                 return NotFound();
             }
 
-            return messageitem;
+            return gameitem;
         }
 
-        // PUT: api/Messageitems/5
+        // PUT: api/Gameitems/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMessageitem(long id, Messageitem messageitem)
+        public async Task<IActionResult> PutGameitem(long id, Gameitem gameitem)
         {
-            if (id != messageitem.FromUserID)
+            if (id != gameitem.PlayerOneID)
             {
                 return BadRequest();
             }
 
-            _context.Entry(messageitem).State = EntityState.Modified;
+            _context.Entry(gameitem).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace WebApi_AndroidApp.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!MessageitemExists(id))
+                if (!GameitemExists(id))
                 {
                     return NotFound();
                 }
@@ -73,19 +73,19 @@ namespace WebApi_AndroidApp.Controllers
             return NoContent();
         }
 
-        // POST: api/Messageitems
+        // POST: api/Gameitems
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Messageitem>> PostMessageitem(Messageitem messageitem)
+        public async Task<ActionResult<Gameitem>> PostGameitem(Gameitem gameitem)
         {
-            _context.Message.Add(messageitem);
+            _context.Game.Add(gameitem);
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (MessageitemExists(messageitem.FromUserID))
+                if (GameitemExists(gameitem.PlayerOneID))
                 {
                     return Conflict();
                 }
@@ -95,28 +95,28 @@ namespace WebApi_AndroidApp.Controllers
                 }
             }
 
-            return CreatedAtAction("GetMessageitem", new { id = messageitem.FromUserID }, messageitem);
+            return CreatedAtAction("GetGameitem", new { id = gameitem.PlayerOneID }, gameitem);
         }
 
-        // DELETE: api/Messageitems/5
+        // DELETE: api/Gameitems/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteMessageitem(long id)
+        public async Task<IActionResult> DeleteGameitem(long id)
         {
-            var messageitem = await _context.Message.FindAsync(id);
-            if (messageitem == null)
+            var gameitem = await _context.Game.FindAsync(id);
+            if (gameitem == null)
             {
                 return NotFound();
             }
 
-            _context.Message.Remove(messageitem);
+            _context.Game.Remove(gameitem);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool MessageitemExists(long id)
+        private bool GameitemExists(long id)
         {
-            return _context.Message.Any(e => e.FromUserID == id);
+            return _context.Game.Any(e => e.PlayerOneID == id);
         }
     }
 }

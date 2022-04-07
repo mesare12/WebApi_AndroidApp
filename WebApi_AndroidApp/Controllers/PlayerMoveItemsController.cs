@@ -12,47 +12,47 @@ namespace WebApi_AndroidApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserItemsController : ControllerBase
+    public class PlayerMoveItemsController : ControllerBase
     {
         private readonly RockPaperScissor _context;
 
-        public UserItemsController(RockPaperScissor context)
+        public PlayerMoveItemsController(RockPaperScissor context)
         {
             _context = context;
         }
 
-        // GET: api/UserItems
+        // GET: api/PlayerMoveItems
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserItem>>> GetUser()
+        public async Task<ActionResult<IEnumerable<PlayerMoveItem>>> GetPlayerMoves()
         {
-            return await _context.User.ToListAsync();
+            return await _context.PlayerMoves.ToListAsync();
         }
 
-        // GET: api/UserItems/5
+        // GET: api/PlayerMoveItems/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserItem>> GetUserItem(long id)
+        public async Task<ActionResult<PlayerMoveItem>> GetPlayerMoveItem(short id)
         {
-            var userItem = await _context.User.FindAsync(id);
+            var playerMoveItem = await _context.PlayerMoves.FindAsync(id);
 
-            if (userItem == null)
+            if (playerMoveItem == null)
             {
                 return NotFound();
             }
 
-            return userItem;
+            return playerMoveItem;
         }
 
-        // PUT: api/UserItems/5
+        // PUT: api/PlayerMoveItems/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUserItem(long id, UserItem userItem)
+        public async Task<IActionResult> PutPlayerMoveItem(short id, PlayerMoveItem playerMoveItem)
         {
-            if (id != userItem.UserID)
+            if (id != playerMoveItem.MoveID)
             {
                 return BadRequest();
             }
 
-            _context.Entry(userItem).State = EntityState.Modified;
+            _context.Entry(playerMoveItem).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace WebApi_AndroidApp.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserItemExists(id))
+                if (!PlayerMoveItemExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace WebApi_AndroidApp.Controllers
             return NoContent();
         }
 
-        // POST: api/UserItems
+        // POST: api/PlayerMoveItems
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<UserItem>> PostUserItem(UserItem userItem)
+        public async Task<ActionResult<PlayerMoveItem>> PostPlayerMoveItem(PlayerMoveItem playerMoveItem)
         {
-            _context.User.Add(userItem);
+            _context.PlayerMoves.Add(playerMoveItem);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUserItem", new { id = userItem.UserID }, userItem);
+            return CreatedAtAction("GetPlayerMoveItem", new { id = playerMoveItem.MoveID }, playerMoveItem);
         }
 
-        // DELETE: api/UserItems/5
+        // DELETE: api/PlayerMoveItems/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUserItem(long id)
+        public async Task<IActionResult> DeletePlayerMoveItem(short id)
         {
-            var userItem = await _context.User.FindAsync(id);
-            if (userItem == null)
+            var playerMoveItem = await _context.PlayerMoves.FindAsync(id);
+            if (playerMoveItem == null)
             {
                 return NotFound();
             }
 
-            _context.User.Remove(userItem);
+            _context.PlayerMoves.Remove(playerMoveItem);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool UserItemExists(long id)
+        private bool PlayerMoveItemExists(short id)
         {
-            return _context.User.Any(e => e.UserID == id);
+            return _context.PlayerMoves.Any(e => e.MoveID == id);
         }
     }
 }

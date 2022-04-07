@@ -12,11 +12,17 @@ namespace WebApi_AndroidApp.Models
         public DbSet<UserItem> User { get; set; } = null!;
         public DbSet<PlayerInvite> PlayerInvite { get; set; } = null!;
         public DbSet<WebApi_AndroidApp.Models.Messageitem> Message { get; set; } = null!;
+        public DbSet<Gameitem> Game { get; set; } = null!;
+        public DbSet<PlayerMoveItem> PlayerMoves { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<PlayerInvite>()
                 .HasKey(c => new { c.InviteFromUserID, c.InviteToUserID });
+            modelBuilder.Entity<Gameitem>()
+                .HasKey(c => new {c.PlayerOneID, c.PlayerTwoID});
+            modelBuilder.Entity<Messageitem>()
+                .HasKey(c => new {c.FromUserID, c.ToUserID});
         }
     }
 }

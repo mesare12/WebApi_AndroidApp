@@ -1,13 +1,26 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebApi_AndroidApp.Models
 {
     public class Gameitem
     {
-        [ForeignKey("UserID")]
-        public long PlayerOneChoice { get; set; }
+        [Key]
+        public long GameID { get; set; }
 
         [ForeignKey("UserID")]
-        public long PlayerTwoChoice { get; set; }
+        public long PlayerOneID { get; set; }
+
+        [ForeignKey("UserID")]
+        public long PlayerTwoID { get; set; }
+
+        public string? PlayerOneChoice { get; set;}
+        public string? PlayerTwoChoice { get; set;}
+        public string? PlayerWinner { get; set;} 
+
+        [ForeignKey("MessageID")]
+        public long PlayerMessageID { get; set; }
+        [ForeignKey("MoveID")]
+        public short GameMoveID { get; set; }
     }
 }

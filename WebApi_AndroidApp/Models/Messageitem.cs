@@ -1,5 +1,6 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebApi_AndroidApp.Models
 {
@@ -7,7 +8,11 @@ namespace WebApi_AndroidApp.Models
     {
         [Key]
         public long MessageID { get; set; }
+
+        [ForeignKey("UserID")]
         public long FromUserID { get; set; }
+        
+        [ForeignKey("UserID")]
         public long ToUserID { get; set; }
         public string? Value { get; set; }
         public DateTime TimeSent { get; set; }
