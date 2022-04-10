@@ -5,8 +5,8 @@ namespace WebApi_AndroidApp.Models
     public class UserItem
     {
         [Key]
-        public long UserID { get; set; }
-        public string? Username { get; set; }
+        public long UserID { get; }
+        public string? UserName { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public string? UserEmail { get; set; }

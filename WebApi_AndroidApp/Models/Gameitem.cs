@@ -14,13 +14,17 @@ namespace WebApi_AndroidApp.Models
         [ForeignKey("UserID")]
         public long PlayerTwoID { get; set; }
 
-        public string? PlayerOneChoice { get; set;}
-        public string? PlayerTwoChoice { get; set;}
-        public string? PlayerWinner { get; set;} 
+        [ForeignKey("MoveID")]
+        public byte PlayerOneChoice { get; set;}
+        
+        [ForeignKey("MoveID")]
+        public byte PlayerTwoChoice { get; set;}
+        public long PlayerWinner { get; set;} 
 
         [ForeignKey("MessageID")]
         public long PlayerMessageID { get; set; }
-        [ForeignKey("MoveID")]
-        public short GameMoveID { get; set; }
+
+        public Boolean IsActive { get; set; }
+     
     }
 }

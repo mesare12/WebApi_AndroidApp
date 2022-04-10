@@ -17,6 +17,8 @@ namespace WebApi_AndroidApp.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<UserItem>()
+                .HasKey(c => new { c.UserID });
             modelBuilder.Entity<PlayerInvite>()
                 .HasKey(c => new { c.InviteFromUserID, c.InviteToUserID });
             modelBuilder.Entity<Gameitem>()
