@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Net.Mail;
 
 namespace WebApi_AndroidApp.Controllers
 {
@@ -24,9 +25,9 @@ namespace WebApi_AndroidApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(UserItem _userData)
         {
-            if (_userData != null && _userData.UserEmail != null && _userData.PasswordHash != null)
+            if (_userData != null && _userData.UserEmail != null && _userData.Password != null)
             {
-                var user = await GetUser(_userData.UserEmail, _userData.PasswordHash);
+                var user = await GetUser(_userData.UserEmail, _userData.Password);
 
                 if (user != null)
                 {
@@ -65,7 +66,40 @@ namespace WebApi_AndroidApp.Controllers
 
         private async Task<UserItem> GetUser(string email, string password)
         {
-            return await _context.User.FirstOrDefaultAsync(u => u.UserEmail == email && u.PasswordHash == password);
+            return await _context.User.FirstOrDefaultAsync(u => u.UserEmail == email && u.Password == password);
+        }
+
+        [HttpPost]
+        [Route("Api/Password Recovery")]
+
+        public async Task<IActionResult> PasswordRecovery(string email)
+        {
+            var currentUser = await _context.User.FirstOrDefaultAsync(u => u.UserEmail == email);
+            
+            SmtpClient client = new SmtpClient();
+            MailMessage mailMessage = new MailMessage(new MailAddress("pappasaxsten@gmail.com"), new MailAddress(email));
+            mailMessage.Subject = "Password Recovery";
+            mailMessage.Body = "Use the NewPassword method and supply this hashKey \n" + currentUser.PasswordHash
+                + "\n and the newPassword you have decided";
+            client.Host = "smtp.gmail.com";
+            client.EnableSsl = true;
+            client.Port = 587;
+            client.UseDefaultCredentials = false;
+            client.Credentials = new System.Net.NetworkCredential("pappasaxsten@gmail.com", "rockpaperscissor");            
+            client.Send(mailMessage);
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("Api/New Password")]
+        public async Task<IActionResult> NewPassword(string hashKey, string newPassword)
+        {
+            var currentUser = await _context.User.FirstOrDefaultAsync(u => u.PasswordHash == hashKey);
+            currentUser.Password = newPassword;
+            currentUser.PasswordHash = AuthUtil.ToSha256Hash(newPassword);
+            await _context.SaveChangesAsync();
+            return Ok();
         }
     }
+
 }

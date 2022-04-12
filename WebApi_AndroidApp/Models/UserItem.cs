@@ -11,6 +11,7 @@ namespace WebApi_AndroidApp.Models
         public string? LastName { get; set; }
         public string? UserEmail { get; set; }
         public string? PasswordHash { get; set; }
+        public string? Password { get; set; }
         public string? Token { get; set; }
         public DateTime? TokenIssued { get; set; }
         public long Wins { get; set; }

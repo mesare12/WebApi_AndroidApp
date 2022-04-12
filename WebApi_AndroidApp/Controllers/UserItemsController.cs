@@ -11,7 +11,7 @@ using WebApi_AndroidApp.Models;
 
 namespace WebApi_AndroidApp.Controllers
 {
-    [Authorize]
+  
     [Route("api/[controller]")]
     [ApiController]
     public class UserItemsController : ControllerBase
@@ -81,6 +81,7 @@ namespace WebApi_AndroidApp.Controllers
         public async Task<ActionResult<UserItem>> PostUserItem(UserItem userItem)
         {
             _context.User.Add(userItem);
+            userItem.PasswordHash = AuthUtil.ToSha256Hash(userItem.Password);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetUserItem", new { id = userItem.UserID }, userItem);
