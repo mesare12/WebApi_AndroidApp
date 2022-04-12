@@ -38,8 +38,7 @@ namespace WebApi_AndroidApp.Controllers
                         new Claim("UserId", user.UserID.ToString()),
                         new Claim("FirstName", user.FirstName!),
                         new Claim("UserName", user.UserName!),
-                        new Claim("Email", user.UserEmail!),
-                        new Claim(ClaimTypes.Role, user.Role!)
+                        new Claim("Email", user.UserEmail!),                       
                     };
 
                     var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
