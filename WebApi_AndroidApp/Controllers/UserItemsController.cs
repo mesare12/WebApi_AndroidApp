@@ -40,25 +40,7 @@ namespace WebApi_AndroidApp.Controllers
             return CreatedAtAction("GetUserItem", new { id = userItem.UserID }, userItem);
         }
 
-        // DELETE: api/UserItems/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUserItem(long id)
-        {
-            var userItem = await _context.User.FindAsync(id);
-            if (userItem == null)
-            {
-                return NotFound();
-            }
 
-            _context.User.Remove(userItem);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool UserItemExists(long id)
-        {
-            return _context.User.Any(e => e.UserID == id);
-        }
+        
     }
 }
