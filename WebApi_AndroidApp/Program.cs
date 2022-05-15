@@ -5,13 +5,27 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
 using System.Text;
 using WebApi_AndroidApp.Models;
 
 //Bearer + Token
 
 var builder = WebApplication.CreateBuilder(args);
-
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+        policy =>
+        {
+            policy
+            //.WithOrigins("https://localhost:7017") // , "http://localhost"
+            .AllowAnyHeader()
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            ;
+        });
+});
 // Add services to the container.
 builder.Services.AddSwaggerGen(c =>
 {
@@ -68,6 +82,7 @@ builder.Services.Configure<DataProtectionTokenProviderOptions>(options =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 
 var app = builder.Build();
 

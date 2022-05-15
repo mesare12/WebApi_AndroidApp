@@ -11,7 +11,7 @@ namespace WebApi_AndroidApp.Models
         }
         public DbSet<UserItem> User { get; set; } = null!;
         public DbSet<PlayerInvite> PlayerInvite { get; set; } = null!;
-        public DbSet<WebApi_AndroidApp.Models.Messageitem> Message { get; set; } = null!;
+        public DbSet<WebApi_AndroidApp.Models.MessageItem> Message { get; set; } = null!;
         public DbSet<Gameitem> Game { get; set; } = null!;
         public DbSet<PlayerMoveItem> PlayerMoves { get; set; } = null!;
 
@@ -23,7 +23,7 @@ namespace WebApi_AndroidApp.Models
                 .HasKey(c => new { c.InviteFromUserID, c.InviteToUserID });
             modelBuilder.Entity<Gameitem>()
                 .HasKey(c => new {c.PlayerOneID, c.PlayerTwoID});
-            modelBuilder.Entity<Messageitem>()
+            modelBuilder.Entity<MessageItem>()
                 .HasKey(c => new {c.FromUserID, c.ToUserID});
         }
     }

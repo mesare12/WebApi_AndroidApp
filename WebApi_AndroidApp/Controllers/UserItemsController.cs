@@ -8,10 +8,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApi_AndroidApp.Models;
+using WebApi_AndroidApp.Utility;
 
 namespace WebApi_AndroidApp.Controllers
 {
-  
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserItemsController : ControllerBase
@@ -23,57 +24,8 @@ namespace WebApi_AndroidApp.Controllers
             _context = context;
         }
 
-        // GET: api/UserItems
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserItem>>> GetUser()
-        {
-            return await _context.User.ToListAsync();
-        }
 
-        // GET: api/UserItems/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<UserItem>> GetUserItem(long id)
-        {
-            var userItem = await _context.User.FindAsync(id);
-
-            if (userItem == null)
-            {
-                return NotFound();
-            }
-
-            return userItem;
-        }
-
-        // PUT: api/UserItems/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUserItem(long id, UserItem userItem)
-        {
-            if (id != userItem.UserID)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(userItem).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserItemExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
+       
 
         // POST: api/UserItems
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -81,7 +33,8 @@ namespace WebApi_AndroidApp.Controllers
         public async Task<ActionResult<UserItem>> PostUserItem(UserItem userItem)
         {
             _context.User.Add(userItem);
-            userItem.PasswordHash = AuthUtil.ToSha256Hash(userItem.Password);
+            userItem.PasswordHash = AuthUtil.ToSha256Hash(userItem.PasswordHash).Replace("-", "");
+           
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetUserItem", new { id = userItem.UserID }, userItem);

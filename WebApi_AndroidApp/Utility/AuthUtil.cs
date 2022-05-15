@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace WebApi_AndroidApp
+namespace WebApi_AndroidApp.Utility
 {
     public static class AuthUtil
     {

@@ -1,4 +1,5 @@
 ﻿using WebApi_AndroidApp.Models;
+using WebApi_AndroidApp.Utility;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -25,9 +26,10 @@ namespace WebApi_AndroidApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(UserItem _userData)
         {
-            if (_userData != null && _userData.UserEmail != null && _userData.Password != null)
+            _userData.PasswordHash = AuthUtil.ToSha256Hash(_userData.PasswordHash).Replace("-", "");
+            if (_userData != null && _userData.UserEmail != null && _userData.PasswordHash != null)
             {
-                var user = await GetUser(_userData.UserEmail, _userData.Password);
+                var user = await GetUser(_userData.UserEmail, _userData.PasswordHash);
 
                 if (user != null)
                 {
@@ -66,7 +68,7 @@ namespace WebApi_AndroidApp.Controllers
 
         private async Task<UserItem> GetUser(string email, string password)
         {
-            return await _context.User.FirstOrDefaultAsync(u => u.UserEmail == email && u.Password == password);
+            return await _context.User.FirstOrDefaultAsync(u => u.UserEmail == email && u.PasswordHash == password);
         }
 
         [HttpPost]
@@ -75,7 +77,6 @@ namespace WebApi_AndroidApp.Controllers
         public async Task<IActionResult> PasswordRecovery(string email)
         {
             var currentUser = await _context.User.FirstOrDefaultAsync(u => u.UserEmail == email);
-            
             SmtpClient client = new SmtpClient();
             MailMessage mailMessage = new MailMessage(new MailAddress("pappasaxsten@gmail.com"), new MailAddress(email));
             mailMessage.Subject = "Password Recovery";
@@ -95,8 +96,7 @@ namespace WebApi_AndroidApp.Controllers
         public async Task<IActionResult> NewPassword(string hashKey, string newPassword)
         {
             var currentUser = await _context.User.FirstOrDefaultAsync(u => u.PasswordHash == hashKey);
-            currentUser.Password = newPassword;
-            currentUser.PasswordHash = AuthUtil.ToSha256Hash(newPassword);
+            currentUser.PasswordHash = AuthUtil.ToSha256Hash(newPassword).Replace("-", "");
             await _context.SaveChangesAsync();
             return Ok();
         }
